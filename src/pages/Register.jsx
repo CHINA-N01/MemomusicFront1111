@@ -21,6 +21,10 @@ class Register extends Component {
   handleSubmit = e => {
     const { uname, password, repwd, utype, profession, age, gender, expertise, love_level } = this.state;
     this.setState({success: 1});
+    if (!(uname !== "" && password !== "" && password === repwd && utype !== 0 && profession !== "" && age !== 0 && gender !== 0 && expertise !== 0 && love_level !== 0)) {
+      alert("输入不得为空！请您填写将信息填写完整！")
+      this.setState({success: -2});
+    }
     if (uname !== "" && password !== "" && password === repwd && utype !== 0 && profession !== "" && age !== 0 && gender !== 0 && expertise !== 0 && love_level !== 0) {
       Idm.register(uname, password, utype, profession, age, gender, expertise, love_level)
         .then(response => {
@@ -33,6 +37,7 @@ class Register extends Component {
         })
         .catch(error => console.log(error));
     }
+    
   };
 
   updateField = ({ target }) => {
@@ -85,6 +90,9 @@ class Register extends Component {
         <h1 className="login-title">注册</h1>
         {success === -1 &&
           <p  style={{"color": "red"}}>***该用户名已被占用</p>
+        }
+        {success === -2 &&
+          <p  style={{"color": "red"}}>***输入不得为空！</p>
         }
         {uname === "" && submit === 1 &&
           <p  style={{"color": "red"}}>***请填写您的用戶名</p>
